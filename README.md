@@ -11,3 +11,5 @@ M. Wang, Q. Wang, D. Hong, S. K. Roy and J. Chanussot, "Learning Tensor Low-Rank
 
 
 RGB convertion to HS taken from: https://icvl.cs.bgu.ac.il/pages/researches/hyperspectral-imaging.html
+
+YOLOv8 model taken from:https://github.com/akanametov/yolo-face?tab=readme-ov-file, we used version m for drones
