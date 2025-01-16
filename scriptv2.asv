@@ -1,0 +1,40 @@
+% Load the required files and parameters
+load('cie_1964_400_700.mat'); % Load CIE 1964 color matching functions
+load('sample_hs_im.mat'); % Load example hyperspectral image data to obtain bands and dictionary
+
+% Read the RGB image
+im_cam = imread('C:/Users/michael/Desktop/f_proj/test/images'); % Update with your RGB image path
+im_cam = im2double(im_cam); % Convert the image to double format [0, 1]
+
+% Display size of the input RGB image
+disp(['Size of input RGB image: ' num2str(size(im_cam))]);
+
+% Check if the input image is in the correct format
+if size(im_cam, 3) ~= 3
+    error('Input image must be an RGB image with 3 color channels.');
+end
+
+% Define the sparsity target for the reconstruction
+sparsity_target = 28; % Adjust based on your requirements
+
+% Perform hyperspectral reconstruction
+fprintf('Reconstructing HS image from RGB image...');
+rec_hs = shredReconstructImage(im_cam, Dic_Cam, Dic_HS, sparsity_target);
+fprintf('Done\n');
+
+% Display size of the reconstructed hyperspectral image
+disp(['Size of reconstructed hyperspectral image: ' num2str(size(rec_hs))]);
+
+% Save the resulting hyperspectral image
+save('output/1039.mat', 'rec_hs', 'bands'); % Save rec_hs and bands for future use
+fprintf('Hyperspectral image saved as hyperspectral_image.mat\n');
+
+% Optional: Visualize some of the bands from the hyperspectral image
+figure;
+visualized_bands = [7, 16, 23]; % Select bands to visualize
+for i = 1:length(visualized_bands)
+    subplot(1, length(visualized_bands), i);
+    imagesc(rec_hs(:,:,visualized_bands(i)));
+    title([num2str(bands(visualized_bands(i))) ' nm']);
+    colormap bone; axis image; axis off;
+end
